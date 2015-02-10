@@ -3,11 +3,5 @@
 # include(../pods.pri)
 # This file should be put under version control.
 
-INCLUDEPATH += \
-	../qtwebserver 
-
-LIBS += \
-	-L../qtwebserver -lqtwebserver 
-
 include(qtwebserver/qtwebserver.pri)
 
