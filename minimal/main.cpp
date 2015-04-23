@@ -41,6 +41,7 @@ public:
         // In a real world application, one would interpret the request
         // and deliver a proper response.
         response.setStatusCode(Http::Ok);
+        response.setHeader(Http::ContentType, "text/html");
         response.setBody("<h1>It works!</h1>");
     }
 };

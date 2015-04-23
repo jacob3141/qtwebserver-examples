@@ -57,38 +57,21 @@ public:
         // Create a table element
         QDomElement tableElement = document.createElement("table");
 
+        document.appendHtml(tableElement,
+            "<tr><th>id</th><th>name</th><th>profession</th></tr>");
+
         // Run through all fetched results
         while (query.next()) {
-            // Create a row element for each result
-            QDomElement tableRowElement = document.createElement("tr");
-
             // Extract results from query for this row
             QString idValue = query.value(0).toString();
             QString nameValue = query.value(1).toString();
             QString professionValue = query.value(2).toString();
 
-            // Create td for each data field
-            QDomElement tableDataIdElement = document.createElement("td");
-            QDomElement tableDataNameElement = document.createElement("td");
-            QDomElement tableDataProfessionElement = document.createElement("td");
-
-            // Create text nodes
-            QDomText idTextNode = document.createTextNode(idValue);
-            QDomText nameTextNode = document.createTextNode(nameValue);
-            QDomText professionTextNode = document.createTextNode(professionValue);
-
-            // Append text nodes to table data elements
-            tableDataIdElement.appendChild(idTextNode);
-            tableDataNameElement.appendChild(nameTextNode);
-            tableDataProfessionElement.appendChild(professionTextNode);
-
-            // Append table data elements to table row element
-            tableRowElement.appendChild(tableDataIdElement);
-            tableRowElement.appendChild(tableDataNameElement);
-            tableRowElement.appendChild(tableDataProfessionElement);
-
-            // Append table row element to table element
-            tableElement.appendChild(tableRowElement);
+            document.appendHtml(tableElement,
+                QString("<tr><td>%1</td><td>%2</td><td>%3</td></tr>")
+                    .arg(idValue)
+                    .arg(nameValue)
+                    .arg(professionValue));
         }
 
         // Finally, add table to the document's body

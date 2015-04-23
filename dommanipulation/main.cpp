@@ -23,6 +23,7 @@
 
 // Qt includes
 #include <QCoreApplication>
+#include <QDomText>
 
 // QtWebServer includes
 #include "tcp/tcpmultithreadedserver.h"
@@ -49,29 +50,37 @@ public:
         // Set the title
         document.setTitle("A QtWebServer example");
 
-        // Create a new ul-element
+        // Create a new ul-element.
         QDomElement unorderedList = document.createElement("ul");
 
-        // Add list items by manipulating the DOM directly
+        // Build a simple unordered list.
         for(int i = 0; i < 42; i++) {
-            // Create li element
-            QDomElement listItem = document.createElement("li");
-
-            // Create text element
-            QDomText listItemText = document.createTextNode(
-                QString("Item no. %1").arg(i + 1));
-
-            // Append text element to the li element
-            listItem.appendChild(listItemText);
-
-            // Append list element to the ul element
-            unorderedList.appendChild(listItem);
+            // Assign each odd number the class "odd-number".
+            document.appendHtml(unorderedList,
+                QString("<li class=\"%1\">%2</li>")
+                    .arg(i % 2 == 1 ? "odd-number" : "")
+                    .arg(i));
         }
 
-        // Append the unordered list element to the documents body element
+        // Append the unordered list element to the documents body element.
         document.body().appendChild(unorderedList);
 
-        // Serialize DOM and set as the response body
+        // Now let's manipulate the DOM.
+        // Query all li elements carrying the class "odd-number"
+        QList<QDomElement> oddNumberLiElements
+            = document.elementsByClass("odd-number");
+
+        // Iterate over them.
+        foreach(QDomElement element, oddNumberLiElements) {
+            // Get the underlying DOM text fragment.
+            QDomText domText = element.firstChild().toText();
+
+            // Manipulate it. As domText is directly referring to the DOM
+            // text fragment, the change takes effect immediately.
+            domText.setData(QString("%1").arg(domText.data().toInt() * 2));
+        }
+
+        // Serialize DOM and set as the response body.
         response.setBody(document.toByteArray());
     }
 };
