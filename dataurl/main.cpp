@@ -28,6 +28,7 @@
 #include "tcp/tcpmultithreadedserver.h"
 #include "http/httpwebengine.h"
 #include "http/httpresource.h"
+#include "util/utildataurlcodec.h"
 
 using namespace QtWebServer;
 
@@ -41,7 +42,14 @@ public:
         // In a real world application, one would interpret the request
         // and deliver a proper response.
         response.setStatusCode(Http::Ok);
-        response.setBody("<h1>It works!</h1>");
+        response.setHeader(Http::ContentType, "text/html");
+
+        // Load image from Qt resources
+        QImage image(":/flowers.jpg");
+
+        // Convert to data url and set as response in an image tag
+        QByteArray dataUrl = Util::DataUrlCodec::dataUrlFromImage(image, "PNG");
+        response.setBody("<img src=\"" + dataUrl + "\" / >");
     }
 };
 
