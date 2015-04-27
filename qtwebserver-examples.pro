@@ -6,7 +6,8 @@ SUBDIRS = \
     dommanipulation \
     database \
     https \
-    dataurl
+    dataurl \
+    stylesheet
 
 include(pods-subdirs.pri)
 
