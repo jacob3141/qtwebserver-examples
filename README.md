@@ -18,6 +18,19 @@ git clone --recursive https://github.com/cybercatalyst/qtwebserver-examples.git
 
 Open *qtwebserver-examples.pro* with QtCreator and build and run the example projects. It may happen that you once have to build the qtwebserver project manually before building any of the examples, I am investigating on this. Once you have started any of the examples, visit *http://localhost:8080*.
 
+### Pitfalls and trouble shooting
+
+Usually, the setup should be as mentioned above. Thanks to the feedback of some people I am listing pitfalls and their solutions here, so before falling into despair you might check this list if someone else has encountered your issue before.
+
+#### I get a lot of errors
+Check whether you have set your build target to "Desktop". QtCreator will ask you for which targets to build when you're opening a project for the first time. Then it will create a .pro.user file in which it stores all personal settings so you do not have to make that decision each time. If you think have messed up, you can safely close QtCreator, delete this file and reopen the project.
+
+#### Cannot find -lqtwebserver
+For some reason the build order is broken (see above). You can easily circumvent this: Rightclick on the qtwebserver project in the project tree (or open the context menu with a two-finger tap) and click "Build qtwebserver". After that has finished, the qtwebserver library will be available and you can build the examples.
+
+#### I cannot start the console application
+Sometimes, the terminal settings are messed up and QtCreator is not able to launch the application. This can be (but isn't necessarily) related to using a non-usual shell instead of that one that your system usually uses. At any time, you can launch the application directly from the build folder. If you have not changed settings, your build folder will be named similary to "build-qtwebserver-examples-Ubuntu-Debug" next to the source root directory (called "Out-of-source build"). QtCreator will preserve the original source tree structure by default. If you aren't confident with the location of the build directory, you can change it in the project tab on the left, where you can edit all properties for each target (called a "kit" in QtCreator).
+
 ## Description of examples
 
 ### database
