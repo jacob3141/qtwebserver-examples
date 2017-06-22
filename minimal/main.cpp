@@ -32,19 +32,32 @@
 using namespace QtWebServer;
 
 // Usually, this should go into its own files, of course.
-class Resource : public Http::Resource {
+class FirstResource : public Http::Resource {
 public:
-    Resource() : Http::Resource("/") { }
-    ~Resource() { }
+    FirstResource() : Http::Resource("/") { }
+    ~FirstResource() { }
 
     void deliver(const Http::Request&, Http::Response& response) {
         // In a real world application, one would interpret the request
         // and deliver a proper response.
         response.setStatusCode(Http::Ok);
         response.setHeader(Http::ContentType, "text/html");
-        response.setBody("<h1>It works!</h1>");
+        response.setBody("<h1>It works!</h1><a href=\"/second\">go to second</a>");
     }
 };
+
+class SecondResource : public Http::Resource {
+public:
+    SecondResource() : Http::Resource("/second/") { }
+    ~SecondResource() { }
+
+    void deliver(const Http::Request&, Http::Response& response) {
+        response.setStatusCode(Http::Ok);
+        response.setHeader(Http::ContentType, "text/html");
+        response.setBody("<h1>Second!</h1>");
+    }
+};
+
 
 int main(int argc, char *argv[]) {
     // Initiate Qt application
@@ -55,7 +68,8 @@ int main(int argc, char *argv[]) {
 
     // Create a web engine
     Http::WebEngine webEngine;
-    webEngine.addResource(new Resource());
+    webEngine.addResource(new FirstResource());
+    webEngine.addResource(new SecondResource());
 
     // Create and launch a server that for our web engine
     Tcp::MultithreadedServer tcpServer;
