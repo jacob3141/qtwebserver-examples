@@ -56,7 +56,7 @@ public:
         html.appendHtml(html.head(), QString("<style>%1</style>")
                                         .arg(css.toString()));
 
-        html.appendHtml(html.body(), "<div class=\".block_example\">Example</div>");
+        html.appendHtml(html.body(), "<div class=\"block__example\">Example</div>");
 
         // In a real world application, one would interpret the request
         // and deliver a proper response.
